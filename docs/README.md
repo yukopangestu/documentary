@@ -1,3 +1,45 @@
+<!-- Add this at the top of the markdown file -->
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = link.getAttribute('href');
+      
+      // Only handle URLs that are relative or from allowed domains
+      if (url.startsWith('/') || url.startsWith('http')) {
+        fetch(url)
+          .then(response => response.text())
+          .then(content => {
+            // Create temporary container
+            const temp = document.createElement('div');
+            temp.innerHTML = content;
+            
+            // Replace main content area
+            document.querySelector('main').innerHTML = temp.innerHTML;
+            
+            // Update URL without page reload
+            history.pushState({}, '', url);
+          })
+          .catch(err => console.error('Error loading page:', err));
+      }
+    });
+  });
+});
+</script>
+
+<!-- Add this to style section -->
+<style>
+a {
+  cursor: pointer;
+}
+.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+</style>
+
 # Yuko Pangestu
 
 Below copied from [link](https://raw.githubusercontent.com/EbookFoundation/free-programming-books/refs/heads/main/books/free-programming-books-langs.md)
@@ -2354,7 +2396,6 @@ Books on general-purpose programming that don't focus on a specific language are
 * [The Rustc Book](https://doc.rust-lang.org/rustc)
 * [The Rustonomicon](https://doc.rust-lang.org/nomicon)
 * [Why Rust?](https://www.oreilly.com/content/why-rust)
-
 
 ### Sage
 
